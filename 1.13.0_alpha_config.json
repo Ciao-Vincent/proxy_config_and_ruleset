@@ -629,7 +629,7 @@
             },
             {
                 "tag": "pcdn, some quic",
-                "rule": [
+                "rules": [
                     {
                         "domain_suffix": [
                             "ppio.cloud",
@@ -681,7 +681,7 @@
                     },
                     {
                         "mode": "and",
-                        "rule": [
+                        "rules": [
                             {
                                 "protocol": "udp"
                             },
@@ -694,7 +694,7 @@
             },
             {
                 "tag": "adobe error",
-                "rule": [
+                "rules": [
                     {
                         "domain_suffix": [
                             "undefined",
