@@ -385,7 +385,7 @@
         "rule_set": [
             {
                 "tag": "us sites",
-                "rule": [
+                "rules": [
                     {
                         "domain_suffix": [
                             "linux.do"
@@ -395,7 +395,7 @@
             },
             {
                 "tag": "as sites",
-                "rule": [
+                "rules": [
                     {
                         "domain": [
                             "mac-qiuchenly.yltfspace.com"
@@ -405,7 +405,7 @@
             },
             {
                 "tag": "eu sites",
-                "rule": [
+                "rules": [
                     {
                         "domain_suffix": [
                             "nodeseek.com",
@@ -419,7 +419,7 @@
             },
             {
                 "tag": "emby_direct",
-                "rule": [
+                "rules": [
                     {
                         "domain": [
                             "a.emby.my",
@@ -435,7 +435,7 @@
             },
             {
                 "tag": "emby",
-                "rule": [
+                "rules": [
                     {
                         "domain": [
                             "emby.my",
