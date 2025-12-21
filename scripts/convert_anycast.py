@@ -16,7 +16,7 @@ def main():
 
     ip_list = []
     # 示例行：ip-cidr, 1.0.0.0/24, Anycast
-    pattern = re.compile(r'^\s*ip-cidr\s*,\s*([^,\s]+)\s*,\s*Anycast\s*$', re.IGNORECASE)
+    pattern = re.compile(r'^\s*(ip-cidr|ip6-cidr)\s*,\s*([^,\s]+)\s*,\s*Anycast\s*$', re.IGNORECASE)
 
     for line in input_path.read_text(encoding="utf-8", errors="ignore").splitlines():
         line = line.strip()
