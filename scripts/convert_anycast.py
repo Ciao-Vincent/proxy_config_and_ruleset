@@ -15,19 +15,27 @@ def main():
     output_path = Path(sys.argv[2])
 
     ip_list = []
-    # 示例行：ip-cidr, 1.0.0.0/24, Anycast
-    pattern = re.compile(r'^\s*(ip-cidr|ip6-cidr)\s*,\s*([^,\s]+)\s*,\s*Anycast\s*$', re.IGNORECASE)
 
-    for line in input_path.read_text(encoding="utf-8", errors="ignore").splitlines():
+    # 支持：
+    # ip-cidr, 1.0.0.0/24, Anycast
+    # ip6-cidr, 2603:5:2140::/44, Anycast
+    pattern = re.compile(
+        r'^\s*(ip-cidr|ip6-cidr)\s*,\s*([^,\s]+)\s*,\s*Anycast\s*$',
+        re.IGNORECASE
+    )
+
+    for idx, line in enumerate(input_path.read_text(encoding="utf-8", errors="ignore").splitlines(), start=1):
         line = line.strip()
         if not line or line.startswith("#"):
             continue
 
         m = pattern.match(line)
         if not m:
-            # 不符合格式的行直接跳过（也可改成报错）
+            # 不符合格式的行跳过
             continue
-        ip_list.append(m.group(1))
+
+        cidr = m.group(2)
+        ip_list.append(cidr)
 
     data = {
         "version": 4,
@@ -39,7 +47,10 @@ def main():
     }
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8"
+    )
 
 if __name__ == "__main__":
     main()
