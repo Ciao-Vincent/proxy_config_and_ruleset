@@ -1,4 +1,4 @@
-name: Update anycast.json and anycast.srs
+name: Update json and srs
 
 on:
   workflow_dispatch:
@@ -22,14 +22,80 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Fetch Anycast.list
+      - name: Fetch
         run: |
           mkdir -p tmp
           curl -L --fail --silent --show-error \
             "https://raw.githubusercontent.com/JohnnySun/Router-Rule/master/QuantmultX/Filter/Anycast.list" \
             -o tmp/Anycast.list
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/domainset/reject.json" \
+            -o tmp/domainset_reject.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/reject.json" \
+            -o tmp/non_ip_reject.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/domainset/cdn.json" \
+            -o tmp/domainset_cdn.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/cdn.json" \
+            -o tmp/non_ip_cdn.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/stream.json" \
+            -o tmp/non_ip_stream.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/apple_cdn.json" \
+            -o tmp/non_ip_apple_cdn.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/microsoft_cdn.json" \
+            -o tmp/non_ip_microsoft_cdn.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/domainset/download.json" \
+            -o tmp/domainset_download.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/download.json" \
+            -o tmp/non_ip_download.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/apple_cn.json" \
+            -o tmp/non_ip_apple_cn.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/apple_services.json" \
+            -o tmp/non_ip_apple_services.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/microsoft.json" \
+            -o tmp/non_ip_microsoft.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/ai.json" \
+            -o tmp/non_ip_ai.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/global.json" \
+            -o tmp/non_ip_global.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/ip/reject.json" \
+            -o tmp/ip_reject.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/ip/telegram.json" \
+            -o tmp/ip_telegram.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/ip/stream.json" \
+            -o tmp/ip_stream.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/ip/domestic.json" \
+            -o tmp/ip_domestic.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/ip/china_ip.json" \
+            -o tmp/ip_china_ip.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/ip/china_ip_ipv6.json" \
+            -o tmp/ip_china_ip_ipv6.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/domainset/icloud_private_relay.json" \
+            -o tmp/domainset_icloud_private_relay.json
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/direct.json" \
+            -o tmp/non_ip_direct.json
 
-      - name: Convert to JSON
+      - name: Convert list to JSON
         run: |
           python scripts/convert_anycast.py tmp/Anycast.list output/anycast.json
 
@@ -43,16 +109,38 @@ jobs:
           sudo mv "sing-box-${VER}-${ARCH}/sing-box" /usr/local/bin/sing-box
           sing-box version
 
-      - name: Compile rule-set to .srs
+      - name: Compile json to .srs
         run: |
           sing-box rule-set compile output/anycast.json -o output/anycast.srs
+          sing-box rule-set compile tmp/domainset_reject.json -o output/domainset_reject.srs
+          sing-box rule-set compile tmp/non_ip_reject.json -o output/non_ip_reject.srs
+          sing-box rule-set compile tmp/domainset_cdn.json -o output/domainset_cdn.srs
+          sing-box rule-set compile tmp/non_ip_cdn.json -o output/non_ip_cdn.srs
+          sing-box rule-set compile tmp/non_ip_stream.json -o output/non_ip_stream.srs
+          sing-box rule-set compile tmp/non_ip_apple_cdn.json -o output/non_ip_apple_cdn.srs
+          sing-box rule-set compile tmp/non_ip_microsoft_cdn.json -o output/non_ip_microsoft_cdn.srs
+          sing-box rule-set compile tmp/domainset_download.json -o output/domainset_download.srs
+          sing-box rule-set compile tmp/non_ip_download.json -o output/non_ip_download.srs
+          sing-box rule-set compile tmp/non_ip_apple_cn.json -o output/non_ip_apple_cn.srs
+          sing-box rule-set compile tmp/non_ip_apple_services.json -o output/non_ip_apple_services.srs
+          sing-box rule-set compile tmp/non_ip_microsoft.json -o output/non_ip_microsoft.srs
+          sing-box rule-set compile tmp/non_ip_ai.json -o output/non_ip_ai.srs
+          sing-box rule-set compile tmp/non_ip_global.json -o output/non_ip_global.srs
+          sing-box rule-set compile tmp/ip_reject.json -o output/ip_reject.srs
+          sing-box rule-set compile tmp/ip_telegram.json -o output/ip_telegram.srs
+          sing-box rule-set compile tmp/ip_stream.json -o output/ip_stream.srs
+          sing-box rule-set compile tmp/ip_domestic.json -o output/ip_domestic.srs
+          sing-box rule-set compile tmp/ip_china_ip.json -o output/ip_china_ip.srs
+          sing-box rule-set compile tmp/ip_china_ip_ipv6.json -o output/ip_china_ip_ipv6.srs
+          sing-box rule-set compile tmp/domainset_icloud_private_relay.json -o output/domainset_icloud_private_relay.srs
+          sing-box rule-set compile tmp/non_ip_direct.json -o output/non_ip_direct.srs
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add output/anycast.json output/anycast.srs
+          git add output/anycast.json output/anycast.srs output/domainset_reject.srs output/non_ip_reject.srs output/domainset_cdn.srs output/non_ip_cdn.srs output/non_ip_stream.srs output/non_ip_apple_cdn.srs output/non_ip_microsoft_cdn.srs output/domainset_download.srs output/non_ip_download.srs output/non_ip_apple_cn.srs output/non_ip_apple_services.srs output/non_ip_microsoft.srs output/non_ip_ai.srs output/non_ip_global.srs output/ip_reject.srs output/ip_telegram.srs output/ip_stream.srs output/ip_domestic.srs output/ip_china_ip.srs output/ip_china_ip_ipv6.srs output/domainset_icloud_private_relay.srs output/non_ip_direct.srs
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
