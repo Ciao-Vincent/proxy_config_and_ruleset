@@ -94,7 +94,9 @@ jobs:
           curl -L --fail --silent --show-error \
             "https://ruleset.skk.moe/sing-box/non_ip/direct.json" \
             -o tmp/non_ip_direct.json
-
+          curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/reject-no-drop.json" \
+            -o tmp/non_ip_reject-no-drop.json
       - name: Convert list to JSON
         run: |
           python scripts/convert_anycast.py tmp/Anycast.list output/anycast.json
@@ -134,14 +136,13 @@ jobs:
           sing-box rule-set compile tmp/ip_china_ip_ipv6.json -o output/ip_china_ip_ipv6.srs
           sing-box rule-set compile tmp/domainset_icloud_private_relay.json -o output/domainset_icloud_private_relay.srs
           sing-box rule-set compile tmp/non_ip_direct.json -o output/non_ip_direct.srs
-
+          sing-box rule-set compile tmp/non_ip_reject-no-drop.json -o output/non_ip_reject-no-drop.srs
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add output/anycast.json output/anycast.srs output/domainset_reject.srs output/non_ip_reject.srs output/domainset_cdn.srs output/non_ip_cdn.srs output/non_ip_stream.srs output/non_ip_apple_cdn.srs output/non_ip_microsoft_cdn.srs output/domainset_download.srs output/non_ip_download.srs output/non_ip_apple_cn.srs output/non_ip_apple_services.srs output/non_ip_microsoft.srs output/non_ip_ai.srs output/non_ip_global.srs output/ip_reject.srs output/ip_telegram.srs output/ip_stream.srs output/ip_domestic.srs output/ip_china_ip.srs output/ip_china_ip_ipv6.srs output/domainset_icloud_private_relay.srs output/non_ip_direct.srs
-
+          git add output/anycast.json output/anycast.srs output/domainset_reject.srs output/non_ip_reject.srs output/domainset_cdn.srs output/non_ip_cdn.srs output/non_ip_stream.srs output/non_ip_apple_cdn.srs output/non_ip_microsoft_cdn.srs output/domainset_download.srs output/non_ip_download.srs output/non_ip_apple_cn.srs output/non_ip_apple_services.srs output/non_ip_microsoft.srs output/non_ip_ai.srs output/non_ip_global.srs output/ip_reject.srs output/ip_telegram.srs output/ip_stream.srs output/ip_domestic.srs output/ip_china_ip.srs output/ip_china_ip_ipv6.srs output/domainset_icloud_private_relay.srs output/non_ip_direct.srs output/non_ip_reject-no-drop.srs
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
