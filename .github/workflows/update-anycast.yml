@@ -71,6 +71,9 @@ jobs:
             "https://ruleset.skk.moe/sing-box/non_ip/global.json" \
             -o tmp/non_ip_global.json
           curl -L --fail --silent --show-error \
+            "https://ruleset.skk.moe/sing-box/non_ip/telegram.json" \
+            -o tmp/non_ip_telegram.json
+          curl -L --fail --silent --show-error \
             "https://ruleset.skk.moe/sing-box/ip/reject.json" \
             -o tmp/ip_reject.json
           curl -L --fail --silent --show-error \
@@ -131,6 +134,7 @@ jobs:
           sing-box rule-set compile tmp/non_ip_microsoft.json -o output/non_ip_microsoft.srs
           sing-box rule-set compile tmp/non_ip_ai.json -o output/non_ip_ai.srs
           sing-box rule-set compile tmp/non_ip_global.json -o output/non_ip_global.srs
+          sing-box rule-set compile tmp/non_ip_telegram.json -o output/non_ip_telegram.srs
           sing-box rule-set compile tmp/ip_reject.json -o output/ip_reject.srs
           sing-box rule-set compile tmp/ip_telegram.json -o output/ip_telegram.srs
           sing-box rule-set compile tmp/ip_stream.json -o output/ip_stream.srs
